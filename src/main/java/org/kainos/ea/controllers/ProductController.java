@@ -1,19 +1,24 @@
 package org.kainos.ea.controllers;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import org.kainos.ea.exceptions.DoesNotExistException;
 import org.kainos.ea.exceptions.FailedToCreateException;
 import org.kainos.ea.exceptions.InvalidException;
 import org.kainos.ea.models.Product;
 import org.kainos.ea.models.ProductRequest;
+import org.kainos.ea.models.UserRole;
 import org.kainos.ea.services.ProductService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-@Api("Engineering Academy Dropwizard Product API")
+@Api("Product API")
 @Path("/api/products")
 public class ProductController {
     ProductService productService;
@@ -24,6 +29,12 @@ public class ProductController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.ADMIN, UserRole.USER})
+    @ApiOperation(
+            value = "Return all products",
+            authorizations = @Authorization(value = HttpHeaders.AUTHORIZATION),
+            response = Product.class
+    )
     public Response getProducts() {
         try {
             return Response.ok().entity(productService.getAllOrders()).build();
@@ -35,6 +46,12 @@ public class ProductController {
     @GET
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.ADMIN, UserRole.USER})
+    @ApiOperation(
+            value = "Return a product",
+            authorizations = @Authorization(value = HttpHeaders.AUTHORIZATION),
+            response = Product.class
+    )
     public Response getProductById(@PathParam("productId") int productId) {
         try {
             return Response.ok().entity(productService.getProductById(productId)).build();
@@ -47,6 +64,12 @@ public class ProductController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.ADMIN})
+    @ApiOperation(
+            value = "Create a product",
+            authorizations = @Authorization(value = HttpHeaders.AUTHORIZATION),
+            response = Product.class
+    )
     public Response createProduct(ProductRequest productRequest) {
         try {
             return Response
@@ -63,6 +86,12 @@ public class ProductController {
     @PUT
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.ADMIN})
+    @ApiOperation(
+            value = "Update a product",
+            authorizations = @Authorization(value = HttpHeaders.AUTHORIZATION),
+            response = Product.class
+    )
     public Response updateProduct(@PathParam("productId") int productId, ProductRequest productRequest) {
         try {
             productService.updateProduct(productId, productRequest);
@@ -79,6 +108,12 @@ public class ProductController {
     @DELETE
     @Path("/{productId}")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.ADMIN})
+    @ApiOperation(
+            value = "Delete a product",
+            authorizations = @Authorization(value = HttpHeaders.AUTHORIZATION),
+            response = Product.class
+    )
     public Response deleteProduct(@PathParam("productId") int productId) {
         try {
             productService.deleteProduct(productId);
