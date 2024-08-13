@@ -45,9 +45,6 @@ public class AuthDao {
 
         int affectedRows = st.executeUpdate();
 
-        if (affectedRows == 1) {
-            return true;
-        }
-        return false;
+        return affectedRows == 1;
     }
 }
