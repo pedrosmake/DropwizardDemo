@@ -1,6 +1,8 @@
 package org.kainos.ea.controllers;
 
 import io.swagger.annotations.Api;
+import org.kainos.ea.exceptions.DoesNotExistException;
+import org.kainos.ea.exceptions.FailedToCreateException;
 import org.kainos.ea.exceptions.InvalidException;
 import org.kainos.ea.models.LoginRequest;
 import org.kainos.ea.services.AuthService;
@@ -28,6 +30,22 @@ public class AuthController {
         try {
             return Response.ok().entity(authService.login(loginRequest)).build();
         } catch (SQLException e) {
+            return Response.serverError().build();
+        } catch (InvalidException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/register")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response register(LoginRequest loginRequest) {
+        try {
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(authService.register(loginRequest))
+                    .build();
+        } catch (FailedToCreateException | SQLException e) {
             return Response.serverError().build();
         } catch (InvalidException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

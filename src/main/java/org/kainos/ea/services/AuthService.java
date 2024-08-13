@@ -3,6 +3,7 @@ package org.kainos.ea.services;
 
 import org.kainos.ea.daos.AuthDao;
 import org.kainos.ea.exceptions.Entity;
+import org.kainos.ea.exceptions.FailedToCreateException;
 import org.kainos.ea.exceptions.InvalidException;
 import org.kainos.ea.models.LoginRequest;
 import org.kainos.ea.models.User;
@@ -43,5 +44,16 @@ public class AuthService {
                 .issuer("DropwizardDemo")
                 .signWith(key)
                 .compact();
+    }
+
+    public boolean register(LoginRequest loginRequest)
+            throws SQLException, InvalidException, FailedToCreateException {
+        boolean created = authDao.createUser(loginRequest);
+
+        if (created) {
+            return created;
+        } else {
+            throw new FailedToCreateException(Entity.USER);
+        }
     }
 }
