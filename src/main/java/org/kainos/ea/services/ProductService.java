@@ -15,55 +15,57 @@ import org.kainos.ea.models.ProductResponse;
 import org.kainos.ea.validators.ProductValidator;
 
 public class ProductService {
-    ProductDao productDao;
-    ProductValidator productValidator;
+	ProductDao productDao;
+	ProductValidator productValidator;
 
-    public ProductService(ProductDao productDao, ProductValidator productValidator) {
-        this.productDao = productDao;
-        this.productValidator = productValidator;
-    }
+	public ProductService(ProductDao productDao, ProductValidator productValidator) {
+		this.productDao = productDao;
+		this.productValidator = productValidator;
+	}
 
-    public List<ProductResponse> getAllOrders() throws SQLException {
-        return ProductMapper.mapProductListToProductResponseList(productDao.getAllOrders());
-    }
+	public List<ProductResponse> getAllOrders() throws SQLException {
+		return ProductMapper.mapProductListToProductResponseList(productDao.getAllOrders());
+	}
 
-    public Product getProductById(int productId) throws SQLException, DoesNotExistException {
-        Product product = productDao.getProductById(productId);
-        if (product == null) {
-            throw new DoesNotExistException(Entity.PRODUCT);
-        }
-        return product;
-    }
+	public Product getProductById(int productId) throws SQLException, DoesNotExistException {
+		Product product = productDao.getProductById(productId);
+		if (product == null) {
+			throw new DoesNotExistException(Entity.PRODUCT);
+		}
+		return product;
+	}
 
-    public int createProduct(ProductRequest productRequest) throws FailedToCreateException, SQLException, InvalidException {
+	public int createProduct(ProductRequest productRequest)
+			throws FailedToCreateException, SQLException, InvalidException {
 
-        productValidator.validateProduct(productRequest);
-        int id = productDao.createProduct(productRequest);
+		productValidator.validateProduct(productRequest);
+		int id = productDao.createProduct(productRequest);
 
-        if (id == -1) {
-            throw new FailedToCreateException(Entity.PRODUCT);
-        }
+		if (id == -1) {
+			throw new FailedToCreateException(Entity.PRODUCT);
+		}
 
-        return id;
-    }
+		return id;
+	}
 
-    public void updateProduct(int id, ProductRequest productRequest) throws InvalidException, DoesNotExistException, SQLException {
-        productValidator.validateProduct(productRequest);
+	public void updateProduct(int id, ProductRequest productRequest)
+			throws InvalidException, DoesNotExistException, SQLException {
+		productValidator.validateProduct(productRequest);
 
-        Product productToUpdate = productDao.getProductById(id);
+		Product productToUpdate = productDao.getProductById(id);
 
-        if (productToUpdate == null) {
-            throw new DoesNotExistException(Entity.PRODUCT);
-        }
-        productDao.updateProduct(id, productRequest);
-    }
+		if (productToUpdate == null) {
+			throw new DoesNotExistException(Entity.PRODUCT);
+		}
+		productDao.updateProduct(id, productRequest);
+	}
 
-    public void deleteProduct(int id) throws DoesNotExistException, SQLException {
-        Product product = productDao.getProductById(id);
-        if (product == null) {
-            throw new DoesNotExistException(Entity.PRODUCT);
-        }
-        productDao.deleteProduct(id);
-    }
+	public void deleteProduct(int id) throws DoesNotExistException, SQLException {
+		Product product = productDao.getProductById(id);
+		if (product == null) {
+			throw new DoesNotExistException(Entity.PRODUCT);
+		}
+		productDao.deleteProduct(id);
+	}
 
 }

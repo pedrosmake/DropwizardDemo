@@ -33,59 +33,44 @@ import io.jsonwebtoken.Jwts;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
 
-    public static void main(final String[] args) throws Exception {
-        new DropwizardWebServiceApplication().run(args);
-    }
+	public static void main(final String[] args) throws Exception {
+		new DropwizardWebServiceApplication().run(args);
+	}
 
-    @Override
-    public String getName() {
-        return "DropwizardWebService";
-    }
+	@Override
+	public String getName() {
+		return "DropwizardWebService";
+	}
 
-    @Override
-    public void initialize(final Bootstrap<DropwizardWebServiceConfiguration> bootstrap) {
-        bootstrap.addBundle(new SwaggerBundle<DropwizardWebServiceConfiguration>() {
-            @Override
-            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DropwizardWebServiceConfiguration configuration) {
-                return configuration.getSwagger();
-            }
-        });
-    }
+	@Override
+	public void initialize(final Bootstrap<DropwizardWebServiceConfiguration> bootstrap) {
+		bootstrap.addBundle(new SwaggerBundle<DropwizardWebServiceConfiguration>() {
+			@Override
+			protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(
+					DropwizardWebServiceConfiguration configuration) {
+				return configuration.getSwagger();
+			}
+		});
+	}
 
-    @Override
-    public void run(final DropwizardWebServiceConfiguration configuration,
-                    final Environment environment) {
-        Key jwtKey = Jwts.SIG.HS256.key().build();
+	@Override
+	public void run(final DropwizardWebServiceConfiguration configuration, final Environment environment) {
+		Key jwtKey = Jwts.SIG.HS256.key().build();
 
-        environment.jersey().register(new AuthDynamicFeature(
-                new OAuthCredentialAuthFilter.Builder<JwtToken>()
-                        .setAuthenticator(new JwtAuthenticator(jwtKey))
-                        .setAuthorizer(new RoleAuthoriser())
-                        .setPrefix("Bearer")
-                        .buildAuthFilter()
-        ));
-        environment.jersey().register(RolesAllowedDynamicFeature.class);
-        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(JwtToken.class));
+		environment.jersey()
+				.register(new AuthDynamicFeature(
+						new OAuthCredentialAuthFilter.Builder<JwtToken>().setAuthenticator(new JwtAuthenticator(jwtKey))
+								.setAuthorizer(new RoleAuthoriser()).setPrefix("Bearer").buildAuthFilter()));
+		environment.jersey().register(RolesAllowedDynamicFeature.class);
+		environment.jersey().register(new AuthValueFactoryProvider.Binder<>(JwtToken.class));
 //        environment.jersey().register(new JsonProcessingExceptionMapper(true));
 
-        environment.jersey().register(new OrderController(new OrderService(new OrderDao(), new OrderValidator())));
-        environment.jersey().register(
-                new ProductController(
-                        new ProductService(
-                                new ProductDao(), new ProductValidator()
-                        )
-                )
-        );
-        environment.jersey().register(
-                new CustomerController(
-                        new CustomerService(
-                                new CustomerDao()
-                        )
-                )
-        );
+		environment.jersey().register(new OrderController(new OrderService(new OrderDao(), new OrderValidator())));
+		environment.jersey()
+				.register(new ProductController(new ProductService(new ProductDao(), new ProductValidator())));
+		environment.jersey().register(new CustomerController(new CustomerService(new CustomerDao())));
 
-        environment.jersey().register(
-                new AuthController(new AuthService(new AuthDao(), jwtKey)));
-    }
+		environment.jersey().register(new AuthController(new AuthService(new AuthDao(), jwtKey)));
+	}
 
 }
