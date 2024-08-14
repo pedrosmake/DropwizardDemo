@@ -1,16 +1,7 @@
 package org.kainos.ea;
 
-import io.dropwizard.Application;
-import io.dropwizard.auth.AuthDynamicFeature;
-import io.dropwizard.auth.AuthValueFactoryProvider;
-import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
-import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-import io.federecio.dropwizard.swagger.SwaggerBundle;
-import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import java.security.Key;
 
-import io.jsonwebtoken.Jwts;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.kainos.ea.auth.JwtAuthenticator;
 import org.kainos.ea.auth.RoleAuthoriser;
@@ -21,16 +12,24 @@ import org.kainos.ea.controllers.ProductController;
 import org.kainos.ea.daos.AuthDao;
 import org.kainos.ea.daos.CustomerDao;
 import org.kainos.ea.daos.OrderDao;
+import org.kainos.ea.daos.ProductDao;
 import org.kainos.ea.models.JwtToken;
 import org.kainos.ea.services.AuthService;
 import org.kainos.ea.services.CustomerService;
 import org.kainos.ea.services.OrderService;
 import org.kainos.ea.services.ProductService;
-import org.kainos.ea.daos.ProductDao;
 import org.kainos.ea.validators.OrderValidator;
 import org.kainos.ea.validators.ProductValidator;
 
-import java.security.Key;
+import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import io.jsonwebtoken.Jwts;
 
 public class DropwizardWebServiceApplication extends Application<DropwizardWebServiceConfiguration> {
 

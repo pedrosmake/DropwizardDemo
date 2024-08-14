@@ -1,12 +1,10 @@
 package org.kainos.ea.mappers;
 
-import org.kainos.ea.models.Order;
-import org.kainos.ea.models.OrderResponse;
-import org.kainos.ea.models.Product;
-import org.kainos.ea.models.ProductResponse;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.kainos.ea.models.Product;
+import org.kainos.ea.models.ProductResponse;
 
 public class ProductMapper {
     public static List<ProductResponse> mapProductListToProductResponseList (List<Product> products) {

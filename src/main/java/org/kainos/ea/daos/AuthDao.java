@@ -1,13 +1,12 @@
 package org.kainos.ea.daos;
 
-import org.kainos.ea.models.LoginRequest;
-import org.kainos.ea.models.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
+import org.kainos.ea.models.LoginRequest;
+import org.kainos.ea.models.User;
 
 public class AuthDao {
     public User getUser(LoginRequest loginRequest) throws SQLException {

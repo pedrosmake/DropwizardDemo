@@ -20,7 +20,8 @@ public class JwtAuthenticator implements Authenticator<String, JwtToken> {
     @Override
     public Optional<JwtToken> authenticate(String token) throws AuthenticationException {
         try {
-            Integer roleId = Jwts.parser()
+            @SuppressWarnings("deprecation")
+			Integer roleId = Jwts.parser()
                     .setSigningKey(key)
                     .build()
                     .parseSignedClaims(token)

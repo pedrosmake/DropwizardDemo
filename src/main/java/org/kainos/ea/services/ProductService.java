@@ -1,18 +1,18 @@
 package org.kainos.ea.services;
 
-import org.kainos.ea.daos.OrderDao;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.kainos.ea.daos.ProductDao;
 import org.kainos.ea.exceptions.DoesNotExistException;
 import org.kainos.ea.exceptions.Entity;
 import org.kainos.ea.exceptions.FailedToCreateException;
 import org.kainos.ea.exceptions.InvalidException;
-import org.kainos.ea.mappers.OrderMapper;
 import org.kainos.ea.mappers.ProductMapper;
-import org.kainos.ea.models.*;
+import org.kainos.ea.models.Product;
+import org.kainos.ea.models.ProductRequest;
+import org.kainos.ea.models.ProductResponse;
 import org.kainos.ea.validators.ProductValidator;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public class ProductService {
     ProductDao productDao;
