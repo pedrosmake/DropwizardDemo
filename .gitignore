@@ -272,3 +272,7 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+### Logs ###
+logs/
+*.log
