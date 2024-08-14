@@ -1,22 +1,29 @@
 package org.kainos.ea.models;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class OrderRequest {
-	private int customerId;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	private Timestamp orderDate;
+    private int customerId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp orderDate;
 
-	public Timestamp getOrderDate() {
-		return this.orderDate;
-	}
+    @JsonCreator
+    public OrderRequest(@JsonProperty("customerId") int customerId,
+                        @JsonProperty("orderDate") Timestamp orderDate) {
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+    }
 
-	public void setOrderDate(Date orderDate) {
+    public Timestamp getOrderDate() {
+        return this.orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
 //        Timestamp timestamp;
 //        try {
 //            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -25,20 +32,14 @@ public class OrderRequest {
 //        } catch (ParseException e) {
 //            throw new RuntimeException(e);
 //        }
-		this.orderDate = (Timestamp) orderDate;
-	}
+        this.orderDate = (Timestamp) orderDate;
+    }
 
-	public int getCustomerId() {
-		return this.customerId;
-	}
+    public int getCustomerId() {
+        return this.customerId;
+    }
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-
-	@JsonCreator
-	public OrderRequest(@JsonProperty("customerId") int customerId, @JsonProperty("orderDate") Timestamp orderDate) {
-		this.customerId = customerId;
-		this.orderDate = orderDate;
-	}
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
 }

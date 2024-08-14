@@ -4,40 +4,41 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProductRequest {
-	private String name;
-	private String description;
-	private double price;
+    private String name;
+    private String description;
+    private double price;
 
-	public String getName() {
-		return name;
-	}
+    @JsonCreator
+    public ProductRequest(@JsonProperty("name") String name,
+                          @JsonProperty("description") String description,
+                          @JsonProperty("price") double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public double getPrice() {
+        return price;
+    }
 
-	@JsonCreator
-	public ProductRequest(@JsonProperty("name") String name, @JsonProperty("description") String description,
-			@JsonProperty("price") double price) {
-		this.name = name;
-		this.description = description;
-		this.price = price;
-	}
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
 }
